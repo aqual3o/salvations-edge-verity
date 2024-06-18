@@ -195,10 +195,18 @@
             retVal.right = guardianNeededSymbols(this.threeD, this.insideGuardianRight, this.outsideGuardianRight);
           }
         }
+        console.log ({retVal : JSON.parse(JSON.stringify (retVal))}, 'these are unwanted');
         return retVal;
       },
       displayNeededSymbols: function(symbolText) {
         return symbolText.join(' <br/> ');
+      },
+      shouldWeSwap: function (myInnerShape, offeredShape) {
+        console.log (myInnerShape, offeredShape, 'should we even swap???');
+        if (myInnerShape === offeredShape)
+            return false;
+
+        return true;
       },
       // This is garbage code but it works. Redo this to make it more elegant
       displayNeededSteps: function(neededSwaps) {
@@ -218,7 +226,7 @@
                     } else if (neededSwaps.right.length == 2) {
                         toFind = neededSwaps.right.pop();
                         steps.push([toSwap, 'left', toFind, 'right']);
-                    } else if (neededSwaps.middle.length == 1) {
+                    } else if (neededSwaps.middle.length == 1 && this.shouldWeSwap(this.insideGuardianLeft, neededSwaps.middle [0])) {
                         // it's possible that we're handling 'all outside aisles must swap one' e.g. SCT/Cylinder+Cone+Prism
                         // we've popped left, pop middle and see if right needs one swap. if so, we'll actually need to swap the retrieved symbol again.
                         toFind = neededSwaps.middle.pop();
@@ -234,6 +242,14 @@
                     } else if (neededSwaps.right.length == 1) {
                         toFind = neededSwaps.right.pop();
                         steps.push([toSwap, 'left', toFind, 'right']);
+                        if (neededSwaps.left.length === 0 && neededSwaps.right.length === 0 && neededSwaps.middle.length == 1) {
+                            /* At this point left should be done, don't push anything on left
+                             * Right should need a swap
+                             * It has to be the symbol it got from left
+                             * Since either all are done after 1 step or right recieved this extra symbol from left
+                             */
+                            neededSwaps.right.push(toSwap);
+                        }
                     } else {
                         console.log('wanted to swap ' + toSwap + ' from left, but couldnt ??');
                         steps.push([undefined, undefined, undefined, undefined]);
