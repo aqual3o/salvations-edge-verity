@@ -224,7 +224,12 @@
                         toFind = neededSwaps.middle.pop();
                         steps.push([toSwap, 'left', toFind, 'middle']);
                         if (neededSwaps.left.length === 0 && neededSwaps.middle.length === 0 && neededSwaps.right.length == 1) {
-                            neededSwaps.left.push(toFind);
+                            /* At this point left should be done, don't push anything on left
+                             * Middle should need a swap
+                             * It has to be the symbol it got from left
+                             * Since either all are done after 1 step or middle recieved this extra symbol from left
+                             */
+                            neededSwaps.middle.push(toSwap);
                         }
                     } else if (neededSwaps.right.length == 1) {
                         toFind = neededSwaps.right.pop();
@@ -619,7 +624,7 @@
             >
                 <a
                     class="flex flex-col justify-center"
-                    href="https://github.com/seratne/salvations-edge-verity"
+                    href="https://github.com/aqual3o/salvations-edge-verity"
                 >
                     <div
                         class="flex flex-col items-center gap-2 justify-center"
@@ -633,6 +638,16 @@
                     </div>
                 </a>
                 <div class="font-semibold">Contributors</div>
+                <div class="flex flex-row items-center gap-2">
+                    AquaLeo
+                    <a href="https://www.twitter.com/aqual3o/"
+                        ><img
+                            src="./images/twitter.svg"
+                            alt="Twitter"
+                            style="height: 1rem"
+                        />
+                    </a>
+                </div>
                 <div class="flex flex-row items-center gap-2">
                     seratne
                     <a href="https://www.reddit.com/u/seratne/"
