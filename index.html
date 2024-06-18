@@ -201,6 +201,7 @@
       displayNeededSymbols: function(symbolText) {
         return symbolText.join(' <br/> ');
       },
+
       shouldWeSwap: function (myInnerShape, offeredShape) {
         console.log (myInnerShape, offeredShape, 'should we even swap???');
         if (myInnerShape === offeredShape)
@@ -208,6 +209,20 @@
 
         return true;
       },
+
+      toggleSolution: function () {
+        const elem = window.document.getElementById ('finalSolution');
+
+        console.log ('toggling solution view. current value :', elem.style.display);
+
+        if (elem.style.display === 'none') {
+            elem.style.display = 'flex';
+            return;
+        }
+
+        elem.style.display = 'none';
+      },
+
       // This is garbage code but it works. Redo this to make it more elegant
       displayNeededSteps: function(neededSwaps) {
         if(neededSwaps.left && neededSwaps.middle && neededSwaps.right) {
@@ -603,7 +618,13 @@
                         </template>
                     </div>
                 </div>
+                <div class="flex flex-col border-1 pt-2 pb-4 px-4 rounded-md mt-4">
+                    <button x-on:click="toggleSolution()">
+                        Show/Hide Solution (For Practice)
+                    </button>
+                </div>
                 <div
+                    id="finalSolution"
                     class="flex flex-col border-2 pt-2 pb-4 px-4 rounded-md w-full mt-4"
                 >
                     <div class="font-bold text-lg">Final Shapes</div>
